@@ -18,8 +18,13 @@ add_executable(OpenGLObjViewer main.cpp
         include/imgui/backends/imgui_impl_opengl3.cpp
         # GLAD
         include/glad/src/glad.c
-        )
+        src/render/shader.cpp
+        src/render/shader.h
+        src/stb_image.cpp
+        src/render/camera.cpp
+        src/render/camera.h
+)
 
-target_include_directories(OpenGLObjViewer PRIVATE include/imgui include/glad/include include/glfw/include)
+target_include_directories(OpenGLObjViewer PRIVATE include include/imgui include/glad/include include/glfw/include)
 target_link_directories(OpenGLObjViewer PRIVATE include/glfw/lib-mingw-w64)
 target_link_libraries(OpenGLObjViewer PRIVATE glfw3 opengl32 gdi32 user32)
