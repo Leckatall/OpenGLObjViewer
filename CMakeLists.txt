@@ -23,6 +23,8 @@ add_executable(OpenGLObjViewer main.cpp
         src/stb_image.cpp
         src/render/camera.cpp
         src/render/camera.h
+        src/render/mesh.cpp
+        src/render/mesh.h
 )
 
 target_include_directories(OpenGLObjViewer PRIVATE include include/imgui include/glad/include include/glfw/include)
