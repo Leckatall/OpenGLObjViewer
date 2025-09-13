@@ -25,6 +25,7 @@ add_executable(OpenGLObjViewer main.cpp
         src/render/camera.h
         src/render/mesh.cpp
         src/render/mesh.h
+        src/render/geometry_generator.h
 )
 
 target_include_directories(OpenGLObjViewer PRIVATE include include/imgui include/glad/include include/glfw/include)

@@ -20,8 +20,8 @@ namespace MeshGenerator {
 
     struct Vertex {
         glm::vec3 position; // Position
-        glm::vec2 uv; // UV coordinates
         glm::vec3 normal; // Normal vector
+        glm::vec2 uv; // UV coordinates
     };
 
     struct MeshData {
@@ -42,41 +42,40 @@ namespace MeshGenerator {
 
         mesh.vertices = {
             // Front face
-            {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-            {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-            {{0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-            {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+            {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
+            {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
+            {{0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+            {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
 
             // Back face
-            {{0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}, {0.0f, 0.0f, -1.0f}},
-            {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f}, {0.0f, 0.0f, -1.0f}},
-            {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}, {0.0f, 0.0f, -1.0f}},
-            {{0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}, {0.0f, 0.0f, -1.0f}},
+            {{0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f}},
+            {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {1.0f, 0.0f}},
+            {{-0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {1.0f, 1.0f}},
+            {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f}},
 
             // Left face
-            {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}},
-            {{-0.5f, -0.5f, 0.5f}, {1.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}},
-            {{-0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}, {-1.0f, 0.0f, 0.0f}},
-            {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}, {-1.0f, 0.0f, 0.0f}},
+            {{-0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+            {{-0.5f, -0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
+            {{-0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+            {{-0.5f, 0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}},
 
             // Right face
-            {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-            {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-            {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
-            {{0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
+            {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+            {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
+            {{0.5f, 0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+            {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}},
 
             // Top face
-            {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-            {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-            {{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
-            {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
+            {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+            {{0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+            {{0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}},
+            {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f}},
 
             // Bottom face
-            {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}, {0.0f, -1.0f, 0.0f}},
-            {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f}, {0.0f, -1.0f, 0.0f}},
-            {{0.5f, -0.5f, 0.5f}, {1.0f, 1.0f}, {0.0f, -1.0f, 0.0f}},
-            {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f}, {0.0f, -1.0f, 0.0f}},
-
+            {{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {0.0f, 0.0f}},
+            {{0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 0.0f}},
+            {{0.5f, -0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f}},
+            {{-0.5f, -0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}, {0.0f, 1.0f}},
         };
 
         // Indices for triangles (using EBO)
@@ -84,15 +83,15 @@ namespace MeshGenerator {
             // Front face
             0, 1, 2, 0, 2, 3,
             // Back face
-            5, 4, 7, 5, 7, 6,
+            4, 5, 6, 4, 6, 7,
             // Left face
-            4, 0, 3, 4, 3, 7,
+            8, 9, 10, 8, 10, 11,
             // Right face
-            1, 5, 6, 1, 6, 2,
+            12, 13, 14, 12, 14, 15,
             // Top face
-            3, 2, 6, 3, 6, 7,
+            16, 17, 18, 16, 18, 19,
             // Bottom face
-            4, 5, 1, 4, 1, 0
+            20, 21, 22, 20, 22, 23
         };
 
         return mesh;
@@ -127,7 +126,7 @@ namespace MeshGenerator {
                 const float nz = sinf(phi) * sinTheta;
 
 
-                mesh.vertices.push_back({{x, y, z}, {u, v}, {nx, ny, nz}});
+                mesh.vertices.push_back({{x, y, z}, {nx, ny, nz}, {u, v}});
             }
         }
         return mesh;
@@ -143,10 +142,10 @@ namespace MeshGenerator {
             const float z = RADIUS * sinf(theta);
 
             // Top circle
-            mesh.vertices.push_back({{x, HEIGHT / 2, z}, {SCF(i) / SCF(res), 1.0f}, {0.0f, 1.0f, 0.0f}});
+            mesh.vertices.push_back({{x, HEIGHT / 2, z}, {0.0f, 1.0f, 0.0f}, {SCF(i) / SCF(res), 1.0f}});
 
             // Bottom circle
-            mesh.vertices.push_back({{x, -HEIGHT / 2, z}, {SCF(i) / SCF(res), 0.0f}, {0.0f, -1.0f, 0.0f}});
+            mesh.vertices.push_back({{x, -HEIGHT / 2, z}, {0.0f, -1.0f, 0.0f}, {SCF(i) / SCF(res), 0.0f}});
         }
 
         // Generate indices for the top and bottom faces
@@ -205,12 +204,12 @@ namespace MeshGenerator {
                 const float yBottom = -cylinderHeight / 2 - RADIUS * cosf(phi);
                 const float vBottom = SCF(i) / SCF(stacks); // UV mapping for v
                 const float u = SCF(j) / SCF(res);
-                mesh.vertices.push_back({{x, yBottom, z}, {u, vBottom}, {nx, -ny, nz}});
+                mesh.vertices.push_back({{x, yBottom, z}, {nx, -ny, nz}, {u, vBottom}});
 
                 // Top hemisphere
                 const float yTop = cylinderHeight / 2 + RADIUS * cosf(phi);
                 const float vTop = 1.0f - vBottom;
-                mesh.vertices.push_back({{x, yTop, z}, {u, vTop}, {nx, ny, nz}});
+                mesh.vertices.push_back({{x, yTop, z}, {nx, ny, nz}, {u, vTop}});
             }
         }
 
@@ -224,8 +223,8 @@ namespace MeshGenerator {
             const float nz = sinf(theta);
 
             const float u = SCF(i) / SCF(res);
-            mesh.vertices.push_back({{x, -cylinderHeight / 2, z}, {u, 0.0f}, {nx, 0.0f, nz}}); // Bottom edge
-            mesh.vertices.push_back({{x, cylinderHeight / 2, z}, {u, 1.0f}, {nx, 0.0f, nz}}); // Top edge
+            mesh.vertices.push_back({{x, -cylinderHeight / 2, z}, {nx, 0.0f, nz}, {u, 0.0f}}); // Bottom edge
+            mesh.vertices.push_back({{x, cylinderHeight / 2, z}, {nx, 0.0f, nz}, {u, 1.0f}}); // Top edge
         }
 
         // Indices generation remains unchanged
