@@ -24,7 +24,7 @@ namespace MeshGenerator {
         glm::vec2 uv; // UV coordinates
     };
 
-    struct MeshData {
+    struct Geometry {
         std::vector<Vertex> vertices; // Vertex positions, normals, texture coords
         std::vector<unsigned int> indices; // Indices for EBO rendering
     };
@@ -37,8 +37,8 @@ namespace MeshGenerator {
     };
 
 
-    inline MeshData generateCube() {
-        MeshData mesh;
+    inline Geometry generateCube() {
+        Geometry mesh;
 
         mesh.vertices = {
             // Front face
@@ -97,8 +97,8 @@ namespace MeshGenerator {
         return mesh;
     }
 
-    inline MeshData generateSphere(const int res) {
-        MeshData mesh;
+    inline Geometry generateSphere(const int res) {
+        Geometry mesh;
 
         // Sphere generation using latitude-longitude (UV Sphere)
         for (int lat = 0; lat <= res; ++lat) {
@@ -132,8 +132,8 @@ namespace MeshGenerator {
         return mesh;
     }
 
-    inline MeshData generateCylinder(const int res) {
-        MeshData mesh;
+    inline Geometry generateCylinder(const int res) {
+        Geometry mesh;
 
         // Generate top and bottom circle vertices
         for (int i = 0; i <= res; ++i) {
@@ -183,8 +183,8 @@ namespace MeshGenerator {
         return mesh;
     }
 
-    inline MeshData generateCapsule(const int res) {
-        MeshData mesh;
+    inline Geometry generateCapsule(const int res) {
+        Geometry mesh;
         constexpr float cylinderHeight = HEIGHT - (2 * RADIUS); // Height of the cylinder body
         const int stacks = res / 2; // Number of stacks for the hemispheres
 
@@ -264,7 +264,7 @@ namespace MeshGenerator {
         return mesh;
     }
 
-    inline MeshData generateShape(const ShapeType type, const int res = 20) {
+    inline Geometry generateShape(const ShapeType type, const int res = 20) {
         switch (type) {
             case ShapeType::Cube:
                 return generateCube();

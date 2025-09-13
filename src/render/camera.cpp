@@ -35,10 +35,10 @@ void Camera::ProcessKeyboard(const Camera_Movement direction, const float deltaT
     const auto right = glm::normalize(glm::cross(m_front, m_world_up));
     glm::vec3 moveDir;
     switch(direction) {
-        case FORWARD:  moveDir = m_front; break;
-        case BACKWARD: moveDir = -m_front; break;
-        case LEFT:     moveDir = -right; break;
-        case RIGHT:    moveDir = right; break;
+        case Camera_Movement::FORWARD:  moveDir = m_front; break;
+        case Camera_Movement::BACKWARD: moveDir = -m_front; break;
+        case Camera_Movement::LEFT:     moveDir = -right; break;
+        case Camera_Movement::RIGHT:    moveDir = right; break;
     }
     m_pos += moveDir * velocity;
 }

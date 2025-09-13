@@ -6,51 +6,26 @@
 #define OPENGLOBJVIEWER_MESH_H
 
 
-#include <glad/glad.h> // holds all OpenGL type declarations
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include "shader.h"
-
-#include <string>
-#include <vector>
-using namespace std;
-
-#define MAX_BONE_INFLUENCE 4
-
-struct Vertex {
-    glm::vec3 Position;
-    glm::vec3 Normal;
-    glm::vec2 TexCoords;
-    glm::vec3 Tangent;
-    glm::vec3 Bitangent;
-    int m_BoneIDs[MAX_BONE_INFLUENCE];
-    float m_Weights[MAX_BONE_INFLUENCE];
-};
-
-struct Texture {
-    unsigned int id;
-    std::string type;
-    string path;
-};
+#include "geometry_generator.h"
+#include "material.h"
 
 class Mesh {
 public:
-    vector<Vertex> vertices;
-    vector<unsigned int> indices;
-    vector<Texture> textures;
-    unsigned int VAO;
+    explicit Mesh(const MeshGenerator::Geometry &geometry, const std::shared_ptr<Material> &material)
+        : m_geometry(geometry),
+          m_material(material) {
+        setupMesh();
+    }
 
-    Mesh(const vector<Vertex> &vertices, const vector<unsigned int> &indices, const vector<Texture> &textures);
+    void bind() const;
 
-    void Draw(const Shader &shader) const;
+    size_t getIndexCount() const { return m_geometry.indices.size(); }
 
 private:
-    // render data
-    unsigned int VBO, EBO;
+    MeshGenerator::Geometry m_geometry;
+    std::shared_ptr<Material> m_material;
+    unsigned int m_VAO, m_VBO, m_EBO;
 
-    // initializes all the buffer objects/arrays
     void setupMesh();
 };
 

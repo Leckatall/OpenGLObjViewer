@@ -18,6 +18,7 @@ add_executable(OpenGLObjViewer main.cpp
         include/imgui/backends/imgui_impl_opengl3.cpp
         # GLAD
         include/glad/src/glad.c
+        # Mine
         src/render/shader.cpp
         src/render/shader.h
         src/stb_image.cpp
@@ -26,6 +27,25 @@ add_executable(OpenGLObjViewer main.cpp
         src/render/mesh.cpp
         src/render/mesh.h
         src/render/geometry_generator.h
+        src/Game/world.cpp
+        src/Game/world.h
+        src/Game/entity.cpp
+        src/Game/entity.h
+        src/render/material.cpp
+        src/render/material.h
+        src/render/texture.cpp
+        src/render/texture.h
+        src/render/texture_manager.cpp
+        src/render/texture_manager.h
+        src/render/material_manager.cpp
+        src/render/material_manager.h
+        src/render/mesh_manager.cpp
+        src/render/mesh_manager.h
+        src/render/mesh_manager.h
+        src/render/renderer.cpp
+        src/render/renderer.h
+        src/app/application.cpp
+        src/app/application.h
 )
 
 target_include_directories(OpenGLObjViewer PRIVATE include include/imgui include/glad/include include/glfw/include)
