@@ -9,12 +9,12 @@
 #include "../render/camera.h"
 
 
-Window::Window(const std::string &title, const int width, const int height):
-m_title(title),
-m_width(width),
-m_height(height),
-m_window(nullptr),
-m_camera(nullptr) {
+Window::Window(const std::string &title, const int width, const int height)
+    : m_title(title),
+      m_width(width),
+      m_height(height),
+      m_window(nullptr),
+      m_camera(nullptr) {
     m_center = glm::vec2(width / 2, height / 2);
 }
 
@@ -25,13 +25,13 @@ Window::~Window() {
     glfwTerminate();
 }
 
-bool Window::initialise(Camera* camera) {
+bool Window::initialise(Camera *camera) {
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW." << std::endl;
         return false;
     }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
@@ -49,8 +49,8 @@ bool Window::initialise(Camera* camera) {
 
     m_camera = camera;
     glfwSetWindowUserPointer(m_window, this);
-    glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
-        auto* instance = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    glfwSetCursorPosCallback(m_window, [](GLFWwindow *window, double xpos, double ypos) {
+        auto *instance = static_cast<Window *>(glfwGetWindowUserPointer(window));
         if (instance && instance->m_camera) {
             instance->mouseCallback(window, xpos, ypos);
         }
@@ -90,7 +90,7 @@ void Window::setTitle(const std::string &title) {
     glfwSetWindowTitle(m_window, m_title.c_str());
 }
 
-GLFWwindow * Window::getGLFWHandle() const {
+GLFWwindow *Window::getGLFWHandle() const {
     return m_window;
 }
 

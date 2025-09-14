@@ -23,7 +23,7 @@ public:
 
     void mouseCallback(GLFWwindow* window, double xpos, double ypos) const;
 
-    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {}
 
     bool isKeyPressed(int key) const;
 

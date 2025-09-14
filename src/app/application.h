@@ -32,7 +32,9 @@ private:
         {GLFW_KEY_W, Camera_Movement::FORWARD},
         {GLFW_KEY_S, Camera_Movement::BACKWARD},
         {GLFW_KEY_A, Camera_Movement::LEFT},
-        {GLFW_KEY_D, Camera_Movement::RIGHT}
+        {GLFW_KEY_D, Camera_Movement::RIGHT},
+        {GLFW_KEY_SPACE, Camera_Movement::UP},
+        {GLFW_KEY_LEFT_CONTROL, Camera_Movement::DOWN}
     };
 
     bool m_running = true;

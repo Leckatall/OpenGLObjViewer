@@ -1,13 +1,19 @@
-#version 330 core
+#version 450 core
 out vec4 FragColor;
 
-in vec3 Normal;
-in vec3 FragPos;
+in vec3 Normal;   // world-space
+in vec3 FragPos;  // world-space
 
-uniform vec3 lightPos;
-uniform vec3 viewPos;
+uniform vec3 lightPos;    // world-space
 uniform vec3 lightColor;
 uniform vec3 objectColor;
+
+// Shared camera data via UBO at binding = 0
+layout(std140, binding = 0) uniform CameraUBO {
+    mat4 uView;
+    mat4 uProj;
+    vec4 uEye; // world-space camera position (xyz used)
+};
 
 void main()
 {
@@ -23,9 +29,9 @@ void main()
 
     // specular
     float specularStrength = 0.5;
-    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 viewDir = normalize(uEye.xyz - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
     vec3 specular = specularStrength * spec * lightColor;
 
     vec3 result = (ambient + diffuse + specular) * objectColor;

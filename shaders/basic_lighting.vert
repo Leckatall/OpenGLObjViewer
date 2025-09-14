@@ -1,4 +1,4 @@
-#version 330 core
+#version 450 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 
@@ -6,13 +6,21 @@ out vec3 FragPos;
 out vec3 Normal;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+
+// TODO: Have this UBO in a separate file and include it in both shaders
+layout(std140, binding = 0) uniform CameraUBO {
+    mat4 uView;
+    mat4 uProj;
+    vec4 uEye;
+};
 
 void main()
 {
-    FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal = mat3(transpose(inverse(model))) * aNormal;
+    vec4 worldPos = model * vec4(aPos, 1.0);
+    FragPos = worldPos.xyz;
 
-    gl_Position = projection * view * vec4(FragPos, 1.0);
+    mat3 normalMatrix = mat3(transpose(inverse(model)));
+    Normal = normalize(normalMatrix * aNormal);
+
+    gl_Position = uProj * uView * worldPos;
 }

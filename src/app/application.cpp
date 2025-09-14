@@ -16,11 +16,6 @@ void Application::run() {
         const float currentTime = static_cast<float>(glfwGetTime());
         const float deltaTime = currentTime - lastTime;
         lastTime = currentTime;
-        const auto window_size = m_window.getSize();
-        glm::mat4 projection = glm::perspective(glm::radians(90.0f),
-                                            window_size.x / window_size.y, 0.1f,
-                                            100.0f);
-        m_renderer.setViewProjectionMatrix(projection);
 
         handleInput(deltaTime);
         update(deltaTime);
@@ -55,11 +50,12 @@ void Application::handleInput(const float deltaTime) {
     }
 }
 
-void Application::update(float deltaTime) {
+void Application::update(const float deltaTime) {
     m_world.update(deltaTime);
 }
 
 void Application::render() {
     m_renderer.clear();
+    m_renderer.updateCameraUBO(m_camera.getCameraData());
     m_world.render(m_renderer);
 }

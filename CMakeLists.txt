@@ -19,8 +19,8 @@ add_executable(OpenGLObjViewer main.cpp
         # GLAD
         include/glad/src/glad.c
         # Mine
-        src/render/shader.cpp
-        src/render/shader.h
+        src/render/shader_program.cpp
+        src/render/shader_program.h
         src/stb_image.cpp
         src/render/camera.cpp
         src/render/camera.h
@@ -46,6 +46,7 @@ add_executable(OpenGLObjViewer main.cpp
         src/render/renderer.h
         src/app/application.cpp
         src/app/application.h
+        src/render/camera_data.h
 )
 
 target_include_directories(OpenGLObjViewer PRIVATE include include/imgui include/glad/include include/glfw/include)

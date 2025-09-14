@@ -6,7 +6,7 @@
 
 #include "GLFW/glfw3.h"
 
-Renderer::Renderer() : m_clearColor(0.2f, 0.3f, 0.3f, 1.0f), m_shader(nullptr) {
+Renderer::Renderer() : m_clearColor(0.2f, 0.3f, 0.3f, 1.0f), m_shader("basic_lighting") {
 }
 
 bool Renderer::initialise() {
@@ -14,7 +14,6 @@ bool Renderer::initialise() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return false;
     }
-    m_shader = new Shader("basic_lighting");
 
     glEnable(GL_DEPTH_TEST);
     return true;
@@ -50,15 +49,16 @@ void Renderer::render(const std::vector<Mesh>& meshes) {
 
 void Renderer::renderEntity(const Entity &entity) {
     // Bind the shader (assumes you're using the same shader for all entities here)
-    m_shader->use();
+    m_shader.use();
 
     // Calculate the final model-view-projection matrix
     const glm::mat4 modelMatrix = entity.getMatrix();
-    const glm::mat4 mvpMatrix = m_viewProjectionMatrix * glm::translate(glm::mat4(1.0f), entity.getPosition()) * modelMatrix;
-
+    //const glm::mat4 mvpMatrix = m_viewProjectionMatrix * glm::translate(glm::mat4(1.0f), entity.getPosition()) * modelMatrix;
     // Set shader uniforms
-    m_shader->setMat4("u_MVP", mvpMatrix);
-    m_shader->setMat4("u_Model", modelMatrix);
+    m_shader.setMat4("model", modelMatrix);
+    m_shader.setVec3("lightPos", m_lightPosition);
+    m_shader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+    m_shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
     // Render the mesh
     const auto& mesh = entity.getMesh();

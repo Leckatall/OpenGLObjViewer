@@ -14,29 +14,26 @@
 #include <iostream>
 
 
-using str = std::string;
 
-class Shader {
+class ShaderProgram {
 public:
-    // the program ID
-    unsigned int ID;
+    ShaderProgram(const std::string &vertexPath, const std::string &fragmentPath);
 
-    // constructor reads and builds the shader
-    Shader(const str &vertexPath, const str &fragmentPath);
-
-    explicit Shader(const str &shaderName) : Shader(shaderName + ".vert",
-                                                    shaderName + ".frag") {
+    explicit ShaderProgram(const std::string &shaderName) : ShaderProgram(shaderName + ".vert",
+                                                                  shaderName + ".frag") {
     }
 
+    void init();
+
     // use/activate the shader
-    void use() const;
+    void use();
 
     // utility uniform functions
-    void setBool(const str &name, bool value) const;
+    void setBool(const std::string &name, bool value) const;
 
-    void setInt(const str &name, int value) const;
+    void setInt(const std::string &name, int value) const;
 
-    void setFloat(const str &name, float value) const;
+    void setFloat(const std::string &name, float value) const;
 
     void setVec2(const std::string &name, const glm::vec2 &value) const;
 
@@ -56,10 +53,20 @@ public:
 
     void setMat4(const std::string &name, const glm::mat4 &mat) const;
 
+    void bindUniformBlock(const char* blockName, const GLuint binding) const {
+        GLuint idx = glGetUniformBlockIndex(m_id, blockName);
+        if (idx != GL_INVALID_INDEX) {
+            glUniformBlockBinding(m_id, idx, binding);
+        }
+    }
+
 private:
     static void checkCompileErrors(unsigned int shader, const std::string &type);
 
-    static inline const str SHADER_DIR = "../shaders/";
+    static inline const std::string SHADER_DIR = "../shaders/";
+
+    unsigned int m_id;
+    std::string m_vertPath, m_fragPath;
 };
 
 
