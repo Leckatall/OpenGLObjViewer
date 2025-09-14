@@ -15,11 +15,11 @@ void World::initialise() {
 }
 
 std::shared_ptr<Entity> World::createEntity() {
-    auto geometry = MeshGenerator::generateCube();
+    auto geometry = MeshGenerator::generateShape(MeshGenerator::ShapeType::Cube);
     auto material = MaterialManager::getInstance().getMaterial(DefaultMaterials::BLACK);
     auto mesh = std::make_shared<Mesh>(geometry, material);
     auto entity = std::make_shared<Entity>(mesh, glm::vec3(0.0f, 0.0f, 0.0f));
-    entity->scaleBy(4, 1, 2);
+    //entity->scaleBy(4, 1, 2);
     m_entities.push_back(entity);
     return entity;
 }

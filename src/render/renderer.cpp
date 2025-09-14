@@ -55,7 +55,10 @@ void Renderer::renderEntity(const Entity &entity) {
     const glm::mat4 modelMatrix = entity.getMatrix();
     //const glm::mat4 mvpMatrix = m_viewProjectionMatrix * glm::translate(glm::mat4(1.0f), entity.getPosition()) * modelMatrix;
     // Set shader uniforms
+    const glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
+    //glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     m_shader.setMat4("model", modelMatrix);
+    m_shader.setMat3("normalMatrix", normalMatrix);
     m_shader.setVec3("lightPos", m_lightPosition);
     m_shader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
     m_shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
@@ -63,5 +66,5 @@ void Renderer::renderEntity(const Entity &entity) {
     // Render the mesh
     const auto& mesh = entity.getMesh();
     mesh->bind();
-    glDrawElements(GL_TRIANGLES, mesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, mesh->getIndexCount(), GL_UNSIGNED_INT, nullptr);
 }

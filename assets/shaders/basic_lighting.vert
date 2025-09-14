@@ -6,6 +6,7 @@ out vec3 FragPos;
 out vec3 Normal;
 
 uniform mat4 model;
+uniform mat3 normalMatrix;
 
 // TODO: Have this UBO in a separate file and include it in both shaders
 layout(std140, binding = 0) uniform CameraUBO {
@@ -19,7 +20,6 @@ void main()
     vec4 worldPos = model * vec4(aPos, 1.0);
     FragPos = worldPos.xyz;
 
-    mat3 normalMatrix = mat3(transpose(inverse(model)));
     Normal = normalize(normalMatrix * aNormal);
 
     gl_Position = uProj * uView * worldPos;

@@ -60,10 +60,12 @@ public:
         }
     }
 
+    unsigned int getId() const { return m_id; }
+
 private:
     static void checkCompileErrors(unsigned int shader, const std::string &type);
 
-    static inline const std::string SHADER_DIR = "../shaders/";
+    static inline const std::string SHADER_DIR = "../assets/shaders/";
 
     unsigned int m_id;
     std::string m_vertPath, m_fragPath;
