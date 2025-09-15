@@ -40,24 +40,9 @@ public:
 
     void setLightPosition(const glm::vec3& lightPosition) { m_lightPosition = lightPosition; }
 
-    void createCameraUBO() {
-        glGenBuffers(1, &m_cameraUBO);
-        glBindBuffer(GL_UNIFORM_BUFFER, m_cameraUBO);
-        glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraUBOData), nullptr, GL_DYNAMIC_DRAW);
-        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    void createCameraUBO();
 
-        glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_cameraUBO);
-    }
-
-    void updateCameraUBO(const CameraData &camData) {
-        const CameraUBOData uboData{camData.view, camData.proj, glm::vec4(camData.cameraPosWS, 1.0f)};
-
-        if (m_cameraUBO == 0) createCameraUBO();
-
-        glBindBuffer(GL_UNIFORM_BUFFER, m_cameraUBO);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraUBOData), &uboData);
-        glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    }
+    void updateCameraUBO(const CameraData &camData);
 
 private:
     glm::vec4 m_clearColor;

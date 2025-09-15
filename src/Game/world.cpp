@@ -4,6 +4,7 @@
 
 #include "world.h"
 
+#include "../render/AssetManager.h"
 #include "../render/material_manager.h"
 
 World::World() {
@@ -11,15 +12,14 @@ World::World() {
 }
 
 void World::initialise() {
-    createEntity();
+    createEntity(EntityType::ENVIRONMENT);
+    createEntity(EntityType::TARGET);
 }
 
-std::shared_ptr<Entity> World::createEntity() {
-    auto geometry = MeshGenerator::generateShape(MeshGenerator::ShapeType::Cube);
-    auto material = MaterialManager::getInstance().getMaterial(DefaultMaterials::BLACK);
-    auto mesh = std::make_shared<Mesh>(geometry, material);
-    auto entity = std::make_shared<Entity>(mesh, glm::vec3(0.0f, 0.0f, 0.0f));
-    //entity->scaleBy(4, 1, 2);
+std::shared_ptr<Entity> World::createEntity(EntityType type, EntityParams::Patch overrides) {
+    EntityParams params = DEFAULT_ENTITY_PARAMS[type].override(overrides);
+    gfx::assets::MeshInstance mesh_instance = {params.mesh, params.material, params.transform};
+    auto entity = std::make_shared<Entity>(mesh_instance, params.position);
     m_entities.push_back(entity);
     return entity;
 }

@@ -16,6 +16,7 @@ bool Renderer::initialise() {
     }
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEBUG_OUTPUT);
     return true;
 }
 
@@ -56,15 +57,40 @@ void Renderer::renderEntity(const Entity &entity) {
     //const glm::mat4 mvpMatrix = m_viewProjectionMatrix * glm::translate(glm::mat4(1.0f), entity.getPosition()) * modelMatrix;
     // Set shader uniforms
     const glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
+    const auto& mesh_instance = entity.getMeshInstance();
     //glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     m_shader.setMat4("model", modelMatrix);
     m_shader.setMat3("normalMatrix", normalMatrix);
     m_shader.setVec3("lightPos", m_lightPosition);
-    m_shader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+    m_shader.setVec3("objectColor", mesh_instance.material->baseColor);
+    // apply texture
+    int unit = 0;
+    m_shader.setInt("uAlbedoTex", unit);
+    glActiveTexture(GL_TEXTURE0 + unit);
+    mesh_instance.material->texture->bind();
     m_shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
     // Render the mesh
-    const auto& mesh = entity.getMesh();
-    mesh->bind();
-    glDrawElements(GL_TRIANGLES, mesh->getIndexCount(), GL_UNSIGNED_INT, nullptr);
+
+    mesh_instance.mesh->bind();
+    glDrawElements(GL_TRIANGLES, mesh_instance.mesh->getIndexCount(), GL_UNSIGNED_SHORT, nullptr);
+}
+
+void Renderer::createCameraUBO() {
+    glGenBuffers(1, &m_cameraUBO);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_cameraUBO);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraUBOData), nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_cameraUBO);
+}
+
+void Renderer::updateCameraUBO(const CameraData &camData) {
+    const CameraUBOData uboData{camData.view, camData.proj, glm::vec4(camData.cameraPosWS, 1.0f)};
+
+    if (m_cameraUBO == 0) createCameraUBO();
+
+    glBindBuffer(GL_UNIFORM_BUFFER, m_cameraUBO);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraUBOData), &uboData);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

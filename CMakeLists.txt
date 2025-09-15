@@ -31,8 +31,6 @@ add_executable(OpenGLObjViewer main.cpp
         src/Game/world.h
         src/Game/entity.cpp
         src/Game/entity.h
-        src/render/material.cpp
-        src/render/material.h
         src/render/texture.cpp
         src/render/texture.h
         src/render/texture_manager.cpp
@@ -47,6 +45,10 @@ add_executable(OpenGLObjViewer main.cpp
         src/app/application.cpp
         src/app/application.h
         src/render/camera_data.h
+        src/render/geometry.hpp
+        src/render/AssetManager.cpp
+        src/render/AssetManager.h
+        src/render/AssetManager.h
 )
 
 target_include_directories(OpenGLObjViewer PRIVATE include include/imgui include/glad/include include/glfw/include)

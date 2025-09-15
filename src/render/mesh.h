@@ -6,25 +6,24 @@
 #define OPENGLOBJVIEWER_MESH_H
 
 
+#include <utility>
+
 #include "geometry_generator.h"
-#include "material.h"
 
 class Mesh {
 public:
-    explicit Mesh(const MeshGenerator::Geometry &geometry, const std::shared_ptr<Material> &material)
-        : m_geometry(geometry),
-          m_material(material) {
+    explicit Mesh(gfx::Geometry geometry)
+        : m_geometry(std::move(geometry)) {
         setupMesh();
     }
 
     void bind() const;
 
-    size_t getIndexCount() const { return m_geometry.indices.size(); }
+    [[nodiscard]] size_t getIndexCount() const { return m_geometry.indices.size(); }
 
 private:
-    MeshGenerator::Geometry m_geometry;
-    std::shared_ptr<Material> m_material;
-    unsigned int m_VAO, m_VBO, m_EBO;
+    gfx::Geometry m_geometry;
+    unsigned int m_VAO{}, m_VBO{}, m_EBO{};
 
     void setupMesh();
 };

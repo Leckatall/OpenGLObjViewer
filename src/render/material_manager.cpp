@@ -4,4 +4,4 @@
 
 #include "material_manager.h"
 
-std::unordered_map<DefaultMaterials, std::shared_ptr<Material> > MaterialManager::material_cache;
+// std::unordered_map<gfx::assets::Materials, std::shared_ptr<gfx::assets::Material> > MaterialManager::material_cache;

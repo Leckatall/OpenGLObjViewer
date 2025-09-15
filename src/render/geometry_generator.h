@@ -7,13 +7,15 @@
 #include <vector>
 #include <cmath>
 
+#include "geometry.hpp"
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 
 #define SCF(x) static_cast<float>(x)
 
 
-namespace MeshGenerator {
+namespace gfx {
+    using Index = std::uint16_t;
     constexpr float M_PI_F = 3.14159265358979323846f;
     constexpr float RADIUS = 0.5f;
     constexpr float HEIGHT = 1.0f;
@@ -26,7 +28,7 @@ namespace MeshGenerator {
 
     struct Geometry {
         std::vector<Vertex> vertices; // Vertex positions, normals, texture coords
-        std::vector<unsigned int> indices; // Indices for EBO rendering
+        std::vector<Index> indices; // Indices for EBO rendering
     };
 
     enum class ShapeType {
@@ -99,34 +101,43 @@ namespace MeshGenerator {
 
     inline Geometry generateSphere(const int res) {
         Geometry mesh;
+        mesh.vertices.reserve((res + 1) * (res + 1));
+        mesh.indices.reserve(res * res * 6);
 
-        // Sphere generation using latitude-longitude (UV Sphere)
         for (int lat = 0; lat <= res; ++lat) {
-            const float theta = SCF(lat) * M_PI_F / SCF(res);
-            // theta is the longitude angle at which to place the vertex
-            const float sinTheta = sinf(theta);
-            const float cosTheta = cosf(theta);
+            float theta = float(lat) * M_PI_F / float(res);      // 0..pi
+            float sinTheta = sinf(theta);
+            float cosTheta = cosf(theta);
 
             for (int lon = 0; lon <= res; ++lon) {
-                const float phi = SCF(lon) * 2 * M_PI_F / SCF(res);
-                // phi is the longitude angle at which to place the vertex
+                float phi = float(lon) * 2.0f * M_PI_F / float(res); // 0..2pi
 
-                // Vertex positions
-                const float x = RADIUS * cosf(phi) * sinTheta;
-                const float y = RADIUS * cosTheta;
-                const float z = RADIUS * sinf(phi) * sinTheta;
+                float x = RADIUS * cosf(phi) * sinTheta;
+                float y = RADIUS * cosTheta;
+                float z = RADIUS * sinf(phi) * sinTheta;
 
-                // UV coordinates
-                const float u = SCF(lon) / SCF(res);
-                const float v = SCF(lat) / SCF(res);
+                float u = float(lon) / float(res);
+                float v = float(lat) / float(res);
 
-                // Normal vectors (unit vector pointing outward)
-                const float nx = cosf(phi) * sinTheta;
-                const float ny = cosTheta;
-                const float nz = sinf(phi) * sinTheta;
-
+                float nx = cosf(phi) * sinTheta;
+                float ny = cosTheta;
+                float nz = sinf(phi) * sinTheta;
 
                 mesh.vertices.push_back({{x, y, z}, {nx, ny, nz}, {u, v}});
+            }
+        }
+
+        const int stride = res + 1;
+        for (int lat = 0; lat < res; ++lat) {
+            for (int lon = 0; lon < res; ++lon) {
+                const Index i0 = static_cast<uint32_t>(lat * stride + lon);
+                const Index i1 = i0 + 1;
+                const Index i2 = i0 + stride;
+                const Index i3 = i2 + 1;
+
+                // CCW triangles
+                mesh.indices.push_back(i0); mesh.indices.push_back(i2); mesh.indices.push_back(i1);
+                mesh.indices.push_back(i1); mesh.indices.push_back(i2); mesh.indices.push_back(i3);
             }
         }
         return mesh;
@@ -156,7 +167,7 @@ namespace MeshGenerator {
             mesh.indices.push_back(i + 2);
 
             // Bottom face
-            const int base = res + 1;
+            const Index base = res + 1;
             mesh.indices.push_back(base);
             mesh.indices.push_back(base + i + 2);
             mesh.indices.push_back(base + i + 1);
